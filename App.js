@@ -1,13 +1,24 @@
 import { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import Header from "./components/Header";
 import Card from "./components/Card";
 import AddData from "./components/AddData";
+import Item from "./components/Item";
 
 export default function App() {
   const [tareas, setTareas] = useState([]);
 
-  const addTarea = (tareas) => {};
+  const addTarea = (tareas) => {
+    setTareas((currentTareas) => [
+      ...currentTareas,
+      {
+        key: Math.random().toString(),
+        nombre: tareas.nombre,
+        fecha: tareas.fecha,
+        prioridad: tareas.prioridad,
+      },
+    ]);
+  };
 
   return (
     <View style={styles.container}>
@@ -15,8 +26,18 @@ export default function App() {
         <Card>
           <Header title="Lista de Tareas" />
         </Card>
+        <View style={styles.container}>
+          <AddData addItems={addTarea} />
+        </View>
 
-        <AddData addItems={addTarea} />
+        <View style={styles.container}>
+          <FlatList
+            data={tareas}
+            renderItem={(itemData) => {
+              return <Item itemData={itemData.item} />;
+            }}
+          />
+        </View>
       </View>
     </View>
   );

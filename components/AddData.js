@@ -1,6 +1,7 @@
-import { View, StyleSheet } from "react-native";
+import { useState } from "react";
+import { Button, TextInput, View, StyleSheet } from "react-native";
 
-const AddData = ({ showModal, addItem }) => {
+const AddData = ({ addItems }) => {
   const { nombre, setNombre } = useState("");
   const { fecha, setFecha } = useState("");
   const { prioridad, setPrioridad } = useState("");
@@ -17,10 +18,20 @@ const AddData = ({ showModal, addItem }) => {
     setPrioridad(input);
   };
 
-  const validarDatos = () => {};
+  const validarDatos = () => {
+    addItems({
+      nombre,
+      fecha,
+      prioridad,
+    });
+
+    setNombre("");
+    setFecha("");
+    setPrioridad("");
+  };
 
   return (
-    <View>
+    <View style={styles.card}>
       <TextInput
         value={nombre}
         style={{ paddingTop: 10 }}
